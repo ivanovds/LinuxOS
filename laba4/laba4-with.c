@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+#include <string.h>
+ 
+ 
+int main(int argc, char *argv[])
+{
+    char buff[2048];
+    //Открытие файла
+    int file2;
+    int file = open("1.txt", O_RDWR);
+    if(file == -1){
+            printf("Файла не существует!");
+         }
+    //Вывод содержимого
+    read(file, buff, 2048);
+    printf("Содержимое файла:%s", buff);
+    //Обнуляем буфер
+    memset(buff, 0, 2048);
+    printf("    Введите строку, которую следует дописать в файл  ");
+    //Считывание строки
+    scanf("%s", buff);
+    //Смещение
+    if(lseek(file, 0, SEEK_SET)==-1){
+    printf(" lseek error! ");
+    };
+    //Запись в файл
+    write(file, buff, strlen(buff));
+    close(file);
+    return 0; 
+}
